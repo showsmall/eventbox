@@ -28,6 +28,8 @@ func TestPubSub(t *testing.T) {
 	should.NoError(err)
 
 	should.NoError(b.Connect())
+
+	// 后台先起进程来订阅处理
 	err = b.Sub("test", func(topic string, e *event.Event) error {
 		should.Equal(sourceEvent.Id, e.Id)
 		target := &event.OperateEventData{}

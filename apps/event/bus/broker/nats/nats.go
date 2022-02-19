@@ -37,6 +37,7 @@ func NewBroker(conf *Config) (*Broker, error) {
 	b.opts.Password = conf.Password
 	b.opts.Token = conf.Token
 
+	// 核心处理函数都是回调
 	b.opts.ClosedCB = b.closeHandler
 	b.opts.AsyncErrorCB = b.asyncErrorHandler
 	b.opts.DisconnectedErrCB = b.disconnectedErrorHandler
@@ -123,7 +124,7 @@ func (b *Broker) Pub(topic string, e *event.Event) error {
 	defer b.lock.RUnlock()
 
 	if b.conn == nil || !b.connected {
-		return errors.New("not connected, or reconnect ...")
+		return errors.New("not connected, or reconnect ... ")
 	}
 
 	if err := b.conn.Publish(topic, e); err != nil {
@@ -173,19 +174,15 @@ func (b *Broker) reconnectHandler(nc *nats.Conn) {
 func (b *Broker) closeHandler(nc *nats.Conn) {
 	b.l.Infof("exiting: %v", nc.LastError())
 	b.closeCh <- nc.LastError()
-	return
 }
 
 func (b *Broker) asyncErrorHandler(conn *nats.Conn, sub *nats.Subscription, err error) {
 	if err != nil {
 		b.l.Error("async error, %s", err)
 	}
-
-	return
 }
 
 func (b *Broker) disconnectedErrorHandler(conn *nats.Conn, err error) {
 	b.l.Errorf("disconnected due to:%v, will attempt reconnects for %ds", err, b.conf.ReconnectWait)
 	b.connected = false
-	return
 }
