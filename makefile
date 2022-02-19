@@ -43,7 +43,7 @@ init: dep ## Inital project
 	@go run main.go init
 
 run: install dep ## Run Server
-	@go run main.go start
+	@go run main.go service start
 
 clean: ## Remove previous build
 	@go clean .

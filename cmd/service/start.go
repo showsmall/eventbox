@@ -1,4 +1,4 @@
-package cmd
+package service
 
 import (
 	"context"
@@ -22,8 +22,8 @@ import (
 	_ "github.com/infraboard/eventbox/apps/all"
 )
 
-// startCmd represents the start command
-var serviceCmd = &cobra.Command{
+// Cmd represents the start command
+var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "eventbox API服务",
 	Long:  "eventbox API服务",
@@ -180,5 +180,5 @@ func (s *service) waitSign(sign chan os.Signal) {
 }
 
 func init() {
-	RootCmd.AddCommand(serviceCmd)
+	Cmd.AddCommand(startCmd)
 }
