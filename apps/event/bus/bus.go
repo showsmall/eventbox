@@ -1,8 +1,6 @@
 package bus
 
-import (
-	"github.com/infraboard/mcube/pb/event"
-)
+import "github.com/infraboard/eventbox/apps/event"
 
 // PubManager 带管理
 type PubManager interface {

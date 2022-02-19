@@ -9,11 +9,13 @@ require (
 	github.com/imdario/mergo v0.3.12
 	github.com/infraboard/keyauth v0.7.2
 	github.com/infraboard/mcube v1.6.5
+	github.com/nats-io/nats.go v1.13.1-0.20220121202836-972a071d373d
 	github.com/rs/xid v1.3.0
 	github.com/spf13/cobra v1.3.0
 	github.com/stretchr/testify v1.7.0
 	go.mongodb.org/mongo-driver v1.8.3
 	google.golang.org/grpc v1.44.0
+	google.golang.org/protobuf v1.27.1
 )
 
 require (
@@ -28,6 +30,8 @@ require (
 	github.com/klauspost/compress v1.14.2 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mssola/user_agent v0.5.2 // indirect
+	github.com/nats-io/nkeys v0.3.0 // indirect
+	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
@@ -44,6 +48,5 @@ require (
 	golang.org/x/sys v0.0.0-20220204135822-1c1b9b1eba6a // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20211208223120-3a66f561d7aa // indirect
-	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
