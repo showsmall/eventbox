@@ -6,9 +6,9 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/infraboard/eventbox/cmd/bus"
 	"github.com/infraboard/eventbox/cmd/service"
 	"github.com/infraboard/eventbox/version"
-	"github.com/infraboard/mcube/cmd/mcube/cmd/bus"
 )
 
 var vers bool
