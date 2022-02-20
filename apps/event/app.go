@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
+	request "github.com/infraboard/mcube/http/request"
 	"github.com/rs/xid"
 	"google.golang.org/protobuf/proto"
 	anypb "google.golang.org/protobuf/types/known/anypb"
@@ -48,6 +49,12 @@ func NewOperateEvent(t ContentType, e *OperateEventData) (*Event, error) {
 	}
 
 	return obj, nil
+}
+
+func NewDefaultOperateEvent() *OperateEvent {
+	return &OperateEvent{
+		Header: NewHeader(),
+	}
 }
 
 // NewDefaultEvent todo
@@ -101,4 +108,84 @@ func (e *Event) SetLevel(l Level) {
 // SetSource 设置事件来源
 func (e *Event) SetSource(src string) {
 	e.Header.Source = src
+}
+
+// NewQueryEventkRequest 查询book列表
+func NewQueryEventkRequest(page *request.PageRequest) *QueryEventRequest {
+	return &QueryEventRequest{
+		Page: page,
+	}
+}
+
+// NewSaveEventRequest todo
+func NewSaveEventRequest() *SaveEventRequest {
+	return &SaveEventRequest{}
+}
+
+func (req *SaveEventRequest) Add(item *Event) {
+	req.Items = append(req.Items, item)
+}
+
+func (req *SaveEventRequest) Ids() []string {
+	ids := make([]string, 0, len(req.Items))
+	for i := range req.Items {
+		ids = append(ids, req.Items[i].Id)
+	}
+
+	return ids
+}
+
+func (req *SaveEventRequest) ParseEvent() ([]interface{}, error) {
+	docs := make([]interface{}, 0, len(req.Items))
+	for i := range req.Items {
+		switch req.Items[i].Type {
+		case Type_OPERATE:
+			data := &OperateEventData{}
+			err := req.Items[i].ParseBoby(data)
+			if err != nil {
+				return nil, err
+			}
+			oe := &OperateEvent{
+				Id:     req.Items[i].Id,
+				SaveAt: time.Now().UnixMilli(),
+				Type:   req.Items[i].Type,
+				Header: req.Items[i].Header,
+				Body:   data,
+			}
+			if err != nil {
+				return nil, err
+			}
+			docs = append(docs, oe)
+		}
+	}
+
+	return docs, nil
+}
+
+// NewSaveReponse todo
+func NewSaveReponse() *SaveReponse {
+	return &SaveReponse{}
+}
+
+func (resp *SaveReponse) AddSuccess(ids ...string) {
+	for i := range ids {
+		resp.Success = append(resp.Success, ids[i])
+	}
+}
+
+func (resp *SaveReponse) AddFailed(ids ...string) {
+	for i := range ids {
+		resp.Failed = append(resp.Failed, ids[i])
+	}
+}
+
+// NewOperateEventSet 实例
+func NewOperateEventSet() *OperateEventSet {
+	return &OperateEventSet{
+		Items: []*OperateEvent{},
+	}
+}
+
+func (s *OperateEventSet) Add(item *OperateEvent) {
+	s.Items = append(s.Items, item)
 }

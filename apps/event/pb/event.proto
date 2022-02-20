@@ -4,6 +4,7 @@ package infraboard.eventbox.event;
 option go_package = "github.com/infraboard/eventbox/apps/event";
 
 import "google/protobuf/any.proto";
+import "github.com/infraboard/mcube/pb/page/page.proto";
 
 enum Level {
 	TRACE = 0; 
@@ -27,6 +28,11 @@ enum ContentType {
     PROTOBUF = 0;
     // 采用Json编码
     JSON = 1;
+}
+
+service Service {
+	rpc SaveEvent(SaveEventRequest) returns(SaveReponse) {};
+	rpc QueryEvent(QueryEventRequest) returns(OperateEventSet) {};
 }
 
 // Event to be used by controllers.
@@ -130,3 +136,29 @@ message OperateEvent {
     OperateEventData body = 5;
 }
 
+// OperateEventSet todo
+message OperateEventSet {
+    // @gotags: json:"total"
+    int64 total = 1;
+    // @gotags: json:"items"
+    repeated OperateEvent items = 2;
+}
+
+message SaveReponse {
+    // @gotags: json:"success"
+    repeated string success = 1;
+     // @gotags: json:"failed"
+    repeated string failed = 2;
+}
+
+// SaveEventRequest 保存事件
+message SaveEventRequest {
+    // @gotags: bson:"items" json:"items"
+    repeated Event items = 1;
+}
+
+// QueryEventRequest 查询Book请求
+message QueryEventRequest {
+    infraboard.mcube.page.PageRequest page = 1;
+    string name = 2;
+}
