@@ -8,3 +8,8 @@ docker run -p 4222:4222 -ti nats:latest
 ```
 
 + kafak 部署
+
+```
+cd docs/kafka
+docker-compose up -d
+```

@@ -50,7 +50,7 @@ func TestSub(t *testing.T) {
 
 	}
 
-	time.Sleep(2 * time.Second)
+	time.Sleep(6 * time.Second)
 }
 
 func init() {
